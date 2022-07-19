@@ -172,10 +172,26 @@ card(w, resp, context) {
                         builder: ((context) => AlertDialog(
                               backgroundColor: Colors.transparent,
                               content: Container(
+                                child: Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: <Widget>[
+                                      Text("Menu"),
+                                      resp['menu'] != null
+                                          ? Image.network(
+                                              resp['menu'],
+                                              height: 500,
+                                            )
+                                          : Text("no menu")
+                                    ],
+                                  ),
+                                ),
                                 decoration: BoxDecoration(
                                     color: Colors.black,
                                     border: Border.all(color: Colors.white)),
-                                height: 400,
+                                height: 550,
                                 width: w - 20,
                               ),
                             )));

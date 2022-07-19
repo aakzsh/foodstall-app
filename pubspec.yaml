@@ -40,7 +40,7 @@ dependencies:
   graphql_flutter:
   url_launcher:
   geocoding:
-  syncfusion_flutter_maps:
+  flutter_osm_plugin:
 
 dev_dependencies:
   flutter_test:

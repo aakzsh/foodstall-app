@@ -48,6 +48,7 @@ query MyQuery($dataApikey: String!, $datasource: String!, $database: String!, $c
     phone
     onlyveg
     photos
+    menu
   }
 
 }
