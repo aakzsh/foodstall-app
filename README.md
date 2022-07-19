@@ -15,6 +15,4 @@ Make sure you have flutter installed. Add your stepzen and mongo db data API key
 ```flutter run```
 
 # Screenshots
-![Screenshot_20220719-233851](https://user-images.githubusercontent.com/69726390/179819876-6faeecf6-5275-492e-8eba-0a331e8c6500.jpg)
-![Screenshot_20220719-233903](https://user-images.githubusercontent.com/69726390/179819844-d70ad671-a2f7-4003-a522-44624343442d.jpg)
-![Screenshot_20220719-233857](https://user-images.githubusercontent.com/69726390/179819860-1dbd38c7-f7e4-4ad0-9c0a-36a4c412b45f.jpg)
+![Picsart_22-07-19_23-44-18-844](https://user-images.githubusercontent.com/69726390/179820487-a344cb83-197e-43e8-bcbb-5f791ba866ad.jpg)
