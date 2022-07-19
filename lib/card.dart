@@ -25,11 +25,11 @@ card(w, resp, context) {
             height: 200,
             width: 150,
             decoration: BoxDecoration(
-              // image: DecorationImage(
-              //     image: NetworkImage(
-              //       resp['photos'][0],
-              //     ),
-              // fit: BoxFit.cover),
+              image: DecorationImage(
+                  image: NetworkImage(
+                    resp['photos'][0],
+                  ),
+                  fit: BoxFit.cover),
               borderRadius: BorderRadius.circular(10),
               color: Colors.transparent,
             ),
