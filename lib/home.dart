@@ -100,8 +100,7 @@ class _HomeState extends State<Home> {
                                           "datasource": "stepzen-cluster",
                                           "collection": "stalls",
                                           "filter": {
-                                            // "name": searchcont.value.text
-                                            "name": RegExp(r'/.*momo.*/')
+                                            "name": searchcont.value.text
                                           }
                                           // pepeOK cri aestheticry feelsbanman
                                         };
