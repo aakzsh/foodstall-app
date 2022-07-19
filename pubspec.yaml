@@ -37,6 +37,10 @@ dependencies:
   flutter_map:
   latlong2: ^0.8.1
   flutter_graphql_client: ^0.1.24
+  graphql_flutter:
+  url_launcher:
+  geocoding:
+  syncfusion_flutter_maps:
 
 dev_dependencies:
   flutter_test:
