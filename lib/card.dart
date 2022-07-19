@@ -25,11 +25,11 @@ card(w, resp, context) {
             height: 200,
             width: 150,
             decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: NetworkImage(
-                    "https://5.imimg.com/data5/SELLER/Default/2021/5/WP/ED/MY/69661652/img-20210404-205935-500x500.jpg",
-                  ),
-                  fit: BoxFit.cover),
+              // image: DecorationImage(
+              //     image: NetworkImage(
+              //       resp['photos'][0],
+              //     ),
+              // fit: BoxFit.cover),
               borderRadius: BorderRadius.circular(10),
               color: Colors.transparent,
             ),
@@ -92,7 +92,7 @@ card(w, resp, context) {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  resp['lat'],
+                  "${resp['lat']}, ${resp['long']}",
                   style: TextStyle(color: Colors.white70),
                 ),
                 SizedBox(
@@ -187,15 +187,7 @@ card(w, resp, context) {
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              resp['onlyveg'] != false
-                  ? Image.network(
-                      "https://i.pinimg.com/736x/e4/1f/f3/e41ff3b10a26b097602560180fb91a62.jpg",
-                      height: 20,
-                    )
-                  : Image.network(
-                      "https://www.pngkey.com/png/full/245-2459071_non-veg-icon-non-veg-symbol-png.png",
-                      height: 20,
-                    ),
+              retFoodIcon(resp['onlyveg']),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -219,10 +211,10 @@ card(w, resp, context) {
 
 String getShowStopper(words) {
   String fin = "";
-  for (int i = 0; i < words.length; i++) {
+  for (int i = 0; i < words.length - 1; i++) {
     fin += words[i] + '\n';
   }
-  return fin;
+  return fin + words[words.length - 1];
 }
 
 getPrice(p) {
@@ -239,5 +231,20 @@ getPrice(p) {
       return 200;
     case 5:
       return 500;
+  }
+}
+
+retFoodIcon(f) {
+  print("is it veg?:" + f.toString());
+  if (f) {
+    return Image.network(
+      "https://i.pinimg.com/736x/e4/1f/f3/e41ff3b10a26b097602560180fb91a62.jpg",
+      height: 20,
+    );
+  } else {
+    return Image.network(
+      "https://www.pngkey.com/png/full/245-2459071_non-veg-icon-non-veg-symbol-png.png",
+      height: 20,
+    );
   }
 }

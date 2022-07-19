@@ -7,8 +7,25 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  String readRepositories = r"""
+const String dataApikey = "";
+
+const realvars = {
+  "database": "foodstall-stepzen",
+  "dataApikey": "$dataApikey",
+  "datasource": "stepzen-cluster",
+  "collection": "stalls",
+  "filter": {}
+};
+
+var vars = {
+  "database": "foodstall-stepzen",
+  "dataApikey": "$dataApikey",
+  "datasource": "stepzen-cluster",
+  "collection": "stalls",
+  "filter": {}
+};
+
+String readRepositories = r"""
 query MyQuery($dataApikey: String!, $datasource: String!, $database: String!, $collection: String!, $filter: MongoFilter) {
   mongo(
     dataApikey: $dataApikey
@@ -30,12 +47,14 @@ query MyQuery($dataApikey: String!, $datasource: String!, $database: String!, $c
     long
     phone
     onlyveg
+    photos
   }
 
 }
 
 """;
 
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
@@ -44,14 +63,7 @@ query MyQuery($dataApikey: String!, $datasource: String!, $database: String!, $c
         fetchPolicy: FetchPolicy.noCache,
         document:
             gql(readRepositories), // this is the query string you just created
-        variables: const {
-          "database": "foodstall-stepzen",
-          "dataApikey": "",
-          "datasource": "stepzen-cluster",
-          "collection": "stalls",
-          "filter": {"onlyveg": false}
-          // pepeOK cri aestheticry feelsbanman
-        },
+        variables: vars,
         pollInterval: const Duration(seconds: 10),
       ),
       builder: (QueryResult result,
@@ -69,7 +81,7 @@ query MyQuery($dataApikey: String!, $datasource: String!, $database: String!, $c
         }
 
         List? repositories = result.data?['mongo'];
-        print(repositories);
+        // print(repositories);
 
         if (repositories == null) {
           return const Center(

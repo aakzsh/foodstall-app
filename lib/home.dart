@@ -1,4 +1,7 @@
+// ignore_for_file: prefer_const_constructors, avoid_print
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:foodstall/card.dart';
 import 'package:foodstall/home_page.dart';
 import 'package:foodstall/mapview.dart';
@@ -11,7 +14,41 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
+var newFilter = {};
+
 class _HomeState extends State<Home> {
+  var ratingCont = TextEditingController();
+  var rangeCont = TextEditingController();
+  var nonvegCont = TextEditingController();
+  var searchcont = TextEditingController();
+  double _currentSliderValue = 1;
+
+  updateFilter() {
+    var x = {};
+
+    if (nonvegCont.value.text == 'y' || nonvegCont.value.text == 'Y') {
+      setState(() {
+        // x.addEntries(<String, bool>{"onlyveg": false});
+        final nv = <String, bool>{"onlyveg": false};
+        x.addEntries(nv.entries);
+      });
+    }
+
+    List<String> ratings = ['1', '2', '3', '4', '5'];
+
+    if (ratings.contains(ratingCont.value.text) &&
+        ratings.contains(rangeCont.value.text)) {
+      setState(() {
+        final ra = <String, int>{"price": int.parse(ratingCont.value.text)};
+        final price = <String, int>{"ratings": int.parse(rangeCont.value.text)};
+
+        x.addEntries(ra.entries);
+        x.addEntries(price.entries);
+      });
+    }
+    return x;
+  }
+
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
@@ -49,11 +86,28 @@ class _HomeState extends State<Home> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 20),
                                       child: TextField(
+                                          controller: searchcont,
                                           decoration: InputDecoration.collapsed(
                                               hintText: "Search here"))),
                                 ),
                                 IconButton(
-                                    onPressed: () {}, icon: Icon(Icons.search))
+                                    onPressed: () {
+                                      print(searchcont.value.text);
+                                      setState(() {
+                                        vars = {
+                                          "database": "foodstall-stepzen",
+                                          "dataApikey": "$dataApikey",
+                                          "datasource": "stepzen-cluster",
+                                          "collection": "stalls",
+                                          "filter": {
+                                            // "name": searchcont.value.text
+                                            "name": RegExp(r'/.*momo.*/')
+                                          }
+                                          // pepeOK cri aestheticry feelsbanman
+                                        };
+                                      });
+                                    },
+                                    icon: Icon(Icons.search))
                               ],
                             )),
                         SizedBox(
@@ -80,6 +134,130 @@ class _HomeState extends State<Home> {
                                     builder: ((context) => AlertDialog(
                                           backgroundColor: Colors.transparent,
                                           content: Container(
+                                            child: Padding(
+                                              padding: EdgeInsets.all(20),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text("Filters"),
+                                                  SizedBox(
+                                                    height: 30,
+                                                  ),
+                                                  TextField(
+                                                    controller: ratingCont,
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    decoration: InputDecoration
+                                                        .collapsed(
+                                                            hintText:
+                                                                "Ratings (1 to 5)"),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  TextField(
+                                                    controller: rangeCont,
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    decoration: InputDecoration
+                                                        .collapsed(
+                                                            hintText:
+                                                                "Price Range (1 to 5)"),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  TextField(
+                                                    controller: nonvegCont,
+                                                    maxLength: 1,
+                                                    decoration: InputDecoration
+                                                        .collapsed(
+                                                            hintText:
+                                                                "Non-Veg? Type y for yes"),
+                                                  ),
+                                                  SizedBox(height: 20),
+                                                  InkWell(
+                                                    child: Container(
+                                                        width: 120,
+                                                        height: 30,
+                                                        decoration: BoxDecoration(
+                                                            color: Colors
+                                                                .transparent,
+                                                            border: Border.all(
+                                                                color: Colors
+                                                                    .white),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        30)),
+                                                        child: Center(
+                                                          child: Text("apply"),
+                                                        )),
+                                                    onTap: () {
+                                                      /////////////
+                                                      print(
+                                                          "newFilter hai $newFilter, $ratingCont, $rangeCont, $nonvegCont");
+                                                      setState(() {
+                                                        vars = {
+                                                          "database":
+                                                              "foodstall-stepzen",
+                                                          "dataApikey":
+                                                              "$dataApikey",
+                                                          "datasource":
+                                                              "stepzen-cluster",
+                                                          "collection":
+                                                              "stalls",
+                                                          "filter":
+                                                              updateFilter(),
+                                                          // aestheticry
+                                                        };
+                                                      });
+                                                      Navigator.pop(context);
+                                                    },
+                                                  ),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  InkWell(
+                                                    child: Container(
+                                                        width: 120,
+                                                        height: 30,
+                                                        decoration: BoxDecoration(
+                                                            color: Colors
+                                                                .transparent,
+                                                            border: Border.all(
+                                                                color: Colors
+                                                                    .white),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        30)),
+                                                        child: Center(
+                                                          child:
+                                                              Text("clear all"),
+                                                        )),
+                                                    onTap: () {
+                                                      setState(() {
+                                                        vars = {
+                                                          "database":
+                                                              "foodstall-stepzen",
+                                                          "dataApikey":
+                                                              "$dataApikey",
+                                                          "datasource":
+                                                              "stepzen-cluster",
+                                                          "collection":
+                                                              "stalls",
+                                                          "filter": {}
+                                                          // pepeOK cri aestheticry feelsbanman
+                                                        };
+                                                      });
+                                                      Navigator.pop(context);
+                                                    },
+                                                  )
+                                                ],
+                                              ),
+                                            ),
                                             decoration: BoxDecoration(
                                                 color: Colors.black,
                                                 border: Border.all(

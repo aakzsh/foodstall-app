@@ -16,6 +16,8 @@ void main() async {
   ));
 }
 
+String stepzKey = "";
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
         "https://rochester.stepzen.net/api/foodstall/__graphql",
         defaultHeaders: {
           "Content-Type": "application/json",
-          "Authorization": ""
+          "Authorization": "$stepzKey"
         });
     final ValueNotifier<GraphQLClient> client = ValueNotifier<GraphQLClient>(
       GraphQLClient(
